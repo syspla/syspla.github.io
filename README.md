@@ -1,2 +1,2 @@
 # syspla.github.io
-syspla GitHub
+System Planning Lab Playground
