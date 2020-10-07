@@ -23,8 +23,8 @@
         var h = window.innerHeight/2;
         setInterval(function(){
            var control = document.getElementById("control");
-           var gy= round(gyroY*20);
-           var gx= round(gyroX*20);
+           var gy= Math.round(gyroY*20);
+           var gx= Math.round(gyroX*20);
            control.style.top = w + gy;
            control.style.left = h + gx;
            
