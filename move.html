@@ -12,9 +12,9 @@
   </head>
   <body>
     <div id="all">
+      <div id="control"></div>
       <h3><a id="startGyromove" href="#">Start</a></h3>
-      <div id="control">
-      </div>
+      
       <script src="https://cdn.jsdelivr.net/gh/syspla/GyroMove@0.3/gyromove.js" charset="utf-8"></script>
       <script type="text/javascript">
       function display() {
@@ -23,7 +23,7 @@
            console.log(accelerationX);
            console.log(accelerationY);
            var control = document.getElementById("control");
-           
+
            control.style.top += accelerationY*20;
            control.style.left += accelerationX*20;
          }, 1);
