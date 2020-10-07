@@ -19,12 +19,14 @@
       <script type="text/javascript">
       function display() {
         //check the console too
+        var w = window.innerWidth/2;
+        var h = window.innerHeight/2;
         setInterval(function(){
            var control = document.getElementById("control");
-           var w = window.innerWidth/2;
-           var h = window.innerHeight/2;
-           control.style.top = w + gyroY*20;
-           control.style.left = h + gyroX*20;
+           var gy= round(gyroY*20);
+           var gx= round(gyroX*20);
+           control.style.top = w + gy;
+           control.style.left = h + gx;
            
          }, 1);
       }
