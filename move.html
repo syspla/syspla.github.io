@@ -20,13 +20,13 @@
       function display() {
         //check the console too
         setInterval(function(){
-           console.log(accelerationX);
-           console.log(accelerationY);
+           console.log(gyroX);
+           console.log(gyroY);
            var control = document.getElementById("control");
            var w = window.innerWidth/2;
            var h = window.innerHeight/2;
-           control.style.top = w + accelerationY*20;
-           control.style.left = h + accelerationX*20;
+           control.style.top = w + gyroY*20;
+           control.style.left = h + gyroX*20;
            
          }, 1);
       }
