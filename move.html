@@ -23,8 +23,9 @@
            console.log(accelerationX);
            console.log(accelerationY);
            var control = document.getElementById("control");
-           control.style.top += accelerationY;
-           control.style.top += accelerationX;
+           
+           control.style.top += accelerationY*20;
+           control.style.left += accelerationX*20;
          }, 1);
       }
       display();
