@@ -7,7 +7,7 @@
       *{margin:0; padding:0;}
       html,body{width:100%; height:100%;}
       #all{width:100%; height:100%;}
-      #control{width:50px;height:50px; border-radius: 100px;background-color:black; position: absolute;}
+      #control{width:50px;height:50px; border-radius: 100px;background-color:black; position: absolute; top:50%; left:50%;}
     </style>
   </head>
   <body>
@@ -19,15 +19,14 @@
       <script type="text/javascript">
       function display() {
         //check the console too
-        var w = window.innerWidth/2;
-        var h = window.innerHeight/2;
         setInterval(function(){
+           //console.log(accelerationX);
+           //console.log(accelerationY);
            var control = document.getElementById("control");
-           var gy= Math.round(gyroY*20);
-           var gx= Math.round(gyroX*20);
-           control.style.top = w + gy;
-           control.style.left = h + gx;
-           
+           var w = window.innerWidth/2;
+           var h = window.innerHeight/2;
+           control.style.top = w + accelerationY+"px";
+           control.style.left = h + accelerationX+"px";
          }, 1);
       }
       display();
