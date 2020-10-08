@@ -25,8 +25,8 @@
            var control = document.getElementById("control");
            var w = window.innerWidth/2;
            var h = window.innerHeight/2;
-           control.style.top = w + accelerationY+"px";
-           control.style.left = h + accelerationX+"px";
+           control.style.top = accelerationY*10+"px";
+           control.style.left = accelerationX*10+"px";
          }, 1);
       }
       display();
