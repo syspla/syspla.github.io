@@ -23,14 +23,17 @@
       var rect = control.getBoundingClientRect();
       let currentTop = rect.top;
       let currentLeft = rect.left;
+      let speed  = 10;
 
       //move objectbasedon acceleration
       setInterval(function(){
-
-        control.style.top = currentTop+accelerationY+"px";
-        control.style.left = currentLeft+accelerationX+"px";
+        forceTop = accelerationY * speed;
+        forceLeft = accelerationX  * speed;
+        control.style.top = currentTop+forceTop+"px";
+        control.style.left = currentLeft+forceLeft+"px";
       }, 1);
     }
+
     display();
     // document.getElementById("startGyromove").onclick = function() {
     //
