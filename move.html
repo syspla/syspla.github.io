@@ -17,15 +17,15 @@
 
     <script src="https://cdn.jsdelivr.net/gh/syspla/GyroMove@0.3/gyromove.js" charset="utf-8"></script>
     <script type="text/javascript">
-    function display() {
-      //getelement andset initial position
+    function start() {
+      //get element and set initial position
       var control = document.getElementById("control");
       var rect = control.getBoundingClientRect();
       let currentTop = rect.top;
       let currentLeft = rect.left;
       let speed  = 10;
 
-      //move objectbasedon acceleration
+      //move object based on acceleration
       setInterval(function(){
         forceTop = accelerationY * speed;
         forceLeft = accelerationX  * speed;
@@ -34,10 +34,8 @@
       }, 1);
     }
 
-    display();
-    // document.getElementById("startGyromove").onclick = function() {
-    //
-    // };
+    start();
+
     </script>
   </div>
 </body>
