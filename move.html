@@ -1,36 +1,41 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>move me</title>
-    <style media="screen">
-      *{margin:0; padding:0;}
-      html,body{width:100%; height:100%;}
-      #all{width:100%; height:100%;}
-      #control{width:50px;height:50px; border-radius: 100px;background-color:black; position: absolute; top:50%; left:50%;}
-    </style>
-  </head>
-  <body>
-    <div id="all">
-      <div id="control"></div>
-      <h3><a id="startGyromove" href="#">Start</a></h3>
+<head>
+  <meta charset="utf-8">
+  <title>move me</title>
+  <style media="screen">
+  *{margin:0; padding:0;}
+  html,body{width:100%; height:100%;}
+  #all{width:100%; height:100%;}
+  #control{width:50px;height:50px; border-radius: 100px;background-color:black; position: absolute; top:50%; left:50%;}
+  </style>
+</head>
+<body>
+  <div id="all">
+    <div id="control"></div>
+    <h3><a id="startGyromove" href="#">Start</a></h3>
 
-      <script src="https://cdn.jsdelivr.net/gh/syspla/GyroMove@0.3/gyromove.js" charset="utf-8"></script>
-      <script type="text/javascript">
-      function display() {
-        //check the console too
-        setInterval(function(){
-           //console.log(accelerationX);
-           //console.log(accelerationY);
-           var control = document.getElementById("control");
-           var w = window.innerWidth/2;
-           var h = window.innerHeight/2;
-           control.style.top = accelerationY*10+"px";
-           control.style.left = accelerationX*10+"px";
-         }, 1);
-      }
+    <script src="https://cdn.jsdelivr.net/gh/syspla/GyroMove@0.3/gyromove.js" charset="utf-8"></script>
+    <script type="text/javascript">
+    function display() {
+      //check the console too
+      setInterval(function(){
+        //console.log(accelerationX);
+        //console.log(accelerationY);
+        var control = document.getElementById("control");
+        var container = document.getElementById("all");
+        var w = container.offsetWidth/2-25;
+        var h = container.offsetHeight/2-25;
+        control.style.top = w + accelerationY+"px";
+        control.style.left = h + accelerationX+"px";
+      }, 1);
+    }
+
+    $('#startGyromove').click(function (event) {
+      event.preventDefault();
       display();
-      </script>
-    </div>
-  </body>
+    });
+    </script>
+  </div>
+</body>
 </html>
