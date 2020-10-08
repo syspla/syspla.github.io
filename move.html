@@ -18,20 +18,23 @@
     <script src="https://cdn.jsdelivr.net/gh/syspla/GyroMove@0.3/gyromove.js" charset="utf-8"></script>
     <script type="text/javascript">
     function display() {
-      //check the console too
+      //getelement andset initial position
+      var control = document.getElementById("control");
+      var rect = control.getBoundingClientRect();
+      let currentTop = rect.top;
+      let currentLeft = rect.left;
+
+      //move objectbasedon acceleration
       setInterval(function(){
-        var control = document.getElementById("control");
-        var rect = control.getBoundingClientRect();
-        let currentTop = rect.top;
-        let currentLeft = rect.left;
+
         control.style.top = currentTop+accelerationY+"px";
         control.style.left = currentLeft+accelerationX+"px";
       }, 1);
     }
     display();
-    //document.getElementById("startGyromove").onclick = function() {
-
-    //};
+    // document.getElementById("startGyromove").onclick = function() {
+    //
+    // };
     </script>
   </div>
 </body>
