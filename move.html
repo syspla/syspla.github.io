@@ -20,19 +20,17 @@
     function display() {
       //check the console too
       setInterval(function(){
-        //console.log(accelerationX);
-        //console.log(accelerationY);
         var control = document.getElementById("control");
-        var container = document.getElementById("all");
-        var w = container.offsetWidth/2-25;
-        var h = container.offsetHeight/2-25;
-        control.style.top = w + accelerationY+"px";
-        control.style.left = h + accelerationX+"px";
+        var rect = control.getBoundingClientRect();
+        let currentTop = rect.top;
+        let currentLeft = rect.left;
+        control.style.top = currentTop+accelerationY+"px";
+        control.style.left = currentLeft+accelerationX+"px";
       }, 1);
     }
+    display();
+    document.getElementById("startGyromove")onclick = function() {
 
-    document.getElementById("startGyromove").onclick = function() {
-        display();
     };
     </script>
   </div>
