@@ -1,207 +1,185 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>syspla demo</title>
-    <style>
-      #canvas{width: 100%; height: 100%; position: absolute; top:0; left:0; z-index: 0}
-      #start_demo{position: absolute; top:10;left: 2; z-index: 1000;}
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.11/paper-full.min.js" charset="utf-8"></script>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>move me</title>
+  <style media="screen">
+  *{margin:0; padding:0;}
+  html,body{width:100%; height:100%;}
+  #all{width:100%; height:100%;}
+  #control{width:50px;height:50px; border-radius: 100px;background-color:blue; position: absolute; top:50%; left:50%; z-index: 1000;}
+  #canvas{width: 100%; height: 100%; position: absolute; top:0; left:0; z-index: 0;}
+  #startGyromove{position:absolute; top:5%; left:5%;z-index: 2000;}
+  </style>
 </head>
 <body>
-<main role="main" class="container">
-<a id="start_demo" class="btn btn-lg btn-success py-1" href="#" role="button">Start the demo</a>
-<canvas id="canvas" resize hidpi="off"></canvas>
-</main>
-</footer>
-  
-<script>
-var yvalue = 0;
+  <div id="all">
+    <!-- <div id="control"></div> -->
+    <canvas id="canvas" resize hidpi="off"></canvas>
+    <h3><a id="startGyromove" href="#">Start</a></h3>
 
-function handleOrientation(event) {
-  // updateFieldIfNotNull('Orientation_a', event.alpha);
-  // updateFieldIfNotNull('Orientation_b', event.beta);
-  // updateFieldIfNotNull('Orientation_g', event.gamma);
-  // yvalue = event.alpha;
+    <!-- load scripts -->
+    <script   src="https://code.jquery.com/jquery-3.5.1.min.js"   integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="   crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/syspla/GyroMove@0.3/gyromove.js" charset="utf-8"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/gh/syspla/JS-Virtual-Pointer@0.1/virtualpointer.js" charset="utf-8"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/gh/syspla/JS-Virtual-Pointer@0.1/eventrecorder.js" charset="utf-8"></script> -->
+    <!-- Paper js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.11/paper-full.min.js" charset="utf-8"></script>
+    <!-- <script type="text/javascript">
+    function display() {
+      //getelement andset initial position
+      var control = document.getElementById("control");
+      var rect = control.getBoundingClientRect();
+      let currentTop = rect.top;
+      let currentLeft = rect.left;
+      let speed  = 10;
 
+      //move objectbasedon acceleration
+      setInterval(function(){
+        // forceTop = accelerationY * speed;
+        // forceLeft = accelerationX  * speed;
+        // control.style.top = currentTop+forceTop+"px";
+        // control.style.left = currentLeft+forceLeft+"px";
 
-  // incrementEventCount();
-}
+        //move mouse
+        virtualpointer.move_mouse_to_element($("#control"), 1);
 
-function incrementEventCount(){
-  let counterElement = document.getElementById("num-observed-events")
-  let eventCount = parseInt(counterElement.innerHTML)
-  counterElement.innerHTML = eventCount + 1;
-}
+      }, 1);
+    }
 
-function updateFieldIfNotNull(fieldName, value, precision=10){
-  if (value != null)
-    document.getElementById(fieldName).innerHTML = value.toFixed(precision);
-}
+    display();
+    </script> -->
 
-function handleMotion(event) {
-  // updateFieldIfNotNull('Accelerometer_gx', event.accelerationIncludingGravity.x);
-  // updateFieldIfNotNull('Accelerometer_gy', event.accelerationIncludingGravity.y);
-  // updateFieldIfNotNull('Accelerometer_gz', event.accelerationIncludingGravity.z);
-  //
-  // updateFieldIfNotNull('Accelerometer_x', event.acceleration.x);
-  // updateFieldIfNotNull('Accelerometer_y', event.acceleration.y);
-  // updateFieldIfNotNull('Accelerometer_z', event.acceleration.z);
-  //
-  // updateFieldIfNotNull('Accelerometer_i', event.interval, 2);
-  //
-  // updateFieldIfNotNull('Gyroscope_z', event.rotationRate.alpha);
-  // updateFieldIfNotNull('Gyroscope_x', event.rotationRate.beta);
-  // updateFieldIfNotNull('Gyroscope_y', event.rotationRate.gamma);
-  yvalue = event.rotationRate.gamma;
-  
-  // incrementEventCount();
-}
-
-let is_running = false;
-let demo_button = document.getElementById("start_demo");
-demo_button.onclick = function(e) {
-  e.preventDefault();
-
-  // Request permission for iOS devices
-  if (
-    DeviceMotionEvent &&
-    typeof DeviceMotionEvent.requestPermission === "function"
-  ) {
-    DeviceMotionEvent.requestPermission();
-  }
-
-  if (is_running){
-    window.removeEventListener("devicemotion", handleMotion);
-    window.removeEventListener("deviceorientation", handleOrientation);
-    demo_button.innerHTML = "Start demo";
-    demo_button.classList.add('btn-success');
-    demo_button.classList.remove('btn-danger');
-    is_running = false;
-  }else{
-    window.addEventListener("devicemotion", handleMotion);
-    window.addEventListener("deviceorientation", handleOrientation);
-    document.getElementById("start_demo").innerHTML = "Stop demo";
-    demo_button.classList.remove('btn-success');
-    demo_button.classList.add('btn-danger');
-    is_running = true;
-  }
-};
-</script>
-
-<script type="text/paperscript" canvas="canvas">
+    <script type="text/paperscript" canvas="canvas">
     // Code ported to Paper.js from http://the389.com/9/1/
     // with permission.
+    var controlPoint = new Point(view.center);
+    console.log(controlPoint);
+
+
 
     var values = {
-        friction: 0.8,
-        timeStep: 0.01,
-        amount: 15,
-        mass: 2,
-        count: 0
+      friction: 0.8,
+      timeStep: 0.01,
+      amount: 15,
+      mass: 2,
+      count: 0
     };
-    values.invMass = 1 / values.mass;
 
+    values.invMass = 1 / values.mass;
     var path, springs;
     var size = view.size * [1.2, 1];
 
     var Spring = function(a, b, strength, restLength) {
-        this.a = a;
-        this.b = b;
-        this.restLength = restLength || 80;
-        this.strength = strength ? strength : 0.55;
-        this.mamb = values.invMass * values.invMass;
+      this.a = a;
+      this.b = b;
+      this.restLength = restLength || 80;
+      this.strength = strength ? strength : 0.55;
+      this.mamb = values.invMass * values.invMass;
     };
 
     Spring.prototype.update = function() {
-        var delta = this.b - this.a;
-        var dist = delta.length;
-        var normDistStrength = (dist - this.restLength) /
-                (dist * this.mamb) * this.strength;
-        delta.y *= normDistStrength * values.invMass * 0.2;
-        if (!this.a.fixed)
-            this.a.y += delta.y;
-        if (!this.b.fixed)
-            this.b.y -= delta.y;
+      var delta = this.b - this.a;
+      var dist = delta.length;
+      var normDistStrength = (dist - this.restLength) /
+      (dist * this.mamb) * this.strength;
+      delta.y *= normDistStrength * values.invMass * 0.2;
+      if (!this.a.fixed)
+      this.a.y += delta.y;
+      if (!this.b.fixed)
+      this.b.y -= delta.y;
     };
 
 
     function createPath(strength) {
-        var path = new Path({
-            fillColor: 'black'
-        });
-        springs = [];
-        for (var i = 0; i <= values.amount; i++) {
-            var segment = path.add(new Point(i / values.amount, 0.5) * size);
-            var point = segment.point;
-            if (i == 0 || i == values.amount)
-                point.y += size.height;
-            point.px = point.x;
-            point.py = point.y;
-            // The first two and last two points are fixed:
-            point.fixed = i < 2 || i > values.amount - 2;
-            if (i > 0) {
-                var spring = new Spring(segment.previous.point, point, strength);
-                springs.push(spring);
-            }
+      var path = new Path({
+        fillColor: 'black'
+      });
+      springs = [];
+      for (var i = 0; i <= values.amount; i++) {
+        var segment = path.add(new Point(i / values.amount, 0.5) * size);
+        var point = segment.point;
+        if (i == 0 || i == values.amount)
+        point.y += size.height;
+        point.px = point.x;
+        point.py = point.y;
+        // The first two and last two points are fixed:
+        point.fixed = i < 2 || i > values.amount - 2;
+        if (i > 0) {
+          var spring = new Spring(segment.previous.point, point, strength);
+          springs.push(spring);
         }
-        path.position.x -= size.width / 4;
-        return path;
+      }
+      path.position.x -= size.width / 4;
+      return path;
     }
 
     function onResize() {
-        if (path)
-            path.remove();
-        size = view.bounds.size * [2, 1];
-        path = createPath(0.1);
+      if (path)
+      path.remove();
+      size = view.bounds.size * [2, 1];
+      path = createPath(0.1);
     }
 
-    function onMove() {
-        var location = path.getNearestLocation(view.center);
-        var segment = location.segment;
-        var point = segment.point;
+    function onMove(pp) {
+      //point
+      //ppis
 
-        if (!point.fixed && location.distance < size.height / 4) {
-            var y = view.center.y + yvalue;
-            console.log(y);
-            point.y += (y - point.y) / 6;
-            var previous = segment.previous && segment.previous.point;
-            var next = segment.next && segment.next.point;
-            if (previous && !previous.fixed)
-                previous.y += (y - previous.y) / 24;
-            if (next && !next.fixed)
-                next.y += (y - next.y) / 24;
-        }
+    	var location = path.getNearestLocation(pp);
+    	var segment = location.segment;
+    	var point = segment.point;
+
+
+
+    	if (!point.fixed && location.distance < size.height / 4) {
+    		var y = pp.y;
+    		point.y += (y - point.y) / 6;
+    		if (segment.previous && !segment.previous.fixed) {
+    			var previous = segment.previous.point;
+    			previous.y += (y - previous.y) / 24;
+    		}
+    		if (segment.next && !segment.next.fixed) {
+    			var next = segment.next.point;
+    			next.y += (y - next.y) / 24;
+    		}
+    	}
     }
+
+
 
     function onFrame(event) {
-        updateWave(path);
-        onMove()
+      updateWave(path);
+      controlPoint.x+=accelerationX;
+      controlPoint.y+=accelerationY;
+      onMove(controlPoint);
+      // console.log(controlPoint);
+
     }
 
-    function updateWave(path) {
-        var force = 1 - values.friction * values.timeStep * values.timeStep;
-        for (var i = 0, l = path.segments.length; i < l; i++) {
-            var point = path.segments[i].point;
-            var dy = (point.y - point.py) * force;
-            point.py = point.y;
-            point.y = Math.max(point.y + dy, 0);
-        }
 
-        for (var j = 0, l = springs.length; j < l; j++) {
-            springs[j].update();
-        }
-        path.smooth({ type: 'continuous' });
+
+    function updateWave(path) {
+      var force = 1 - values.friction * values.timeStep * values.timeStep;
+      for (var i = 0, l = path.segments.length; i < l; i++) {
+        var point = path.segments[i].point;
+        var dy = (point.y - point.py) * force;
+        point.py = point.y;
+        point.y = Math.max(point.y + dy, 0);
+      }
+
+      for (var j = 0, l = springs.length; j < l; j++) {
+        springs[j].update();
+      }
+      path.smooth({ type: 'continuous' });
     }
 
     function onKeyDown(event) {
-        if (event.key == 'space') {
-            path.fullySelected = !path.fullySelected;
-            path.fillColor = path.fullySelected ? null : 'black';
-        }
+      if (event.key == 'space') {
+        path.fullySelected = !path.fullySelected;
+        path.fillColor = path.fullySelected ? null : 'black';
+      }
     }
-</script>
+  </script>
+</div>
 </body>
 </html>
