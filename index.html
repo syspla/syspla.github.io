@@ -50,11 +50,14 @@
 display();
 </script> -->
 
-<script type="text/paperscript" canvas="canvas">
+<script type="text/javascript">
 screen.addEventListener("orientationchange", function () {
   console.log("The orientation of the screen is: " + screen.orientation);
   screen.lockOrientation('landscape');
 });
+</script>
+
+<script type="text/paperscript" canvas="canvas">
 
 
 // Code ported to Paper.js from http://the389.com/9/1/
