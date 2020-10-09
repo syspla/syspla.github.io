@@ -50,11 +50,19 @@
 display();
 </script> -->
 
-<script type="text/javascript">
-screen.addEventListener("orientationchange", function () {
-  console.log("The orientation of the screen is: " + screen.orientation);
-  screen.lockOrientation('landscape');
-});
+<script>
+function ready() {
+  const { type } = screen.orientation;
+  console.log(`Fullscreen and locked to ${type}. Ready!`);
+}
+
+async function start() {
+  await document.body.requestFullscreen();
+  await screen.orientation.lock("landscape");
+  ready();
+}
+
+start();
 </script>
 
 <script type="text/paperscript" canvas="canvas">
