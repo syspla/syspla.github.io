@@ -57,7 +57,7 @@ function ready() {
 }
 
 async function start() {
-  await document.body.requestFullscreen();
+  await document.body.webkitRequestFullScreen();
   await screen.orientation.lock("landscape");
   ready();
 }
