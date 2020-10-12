@@ -10,7 +10,7 @@
   </style>
 </head>
 <body>
-
+  <!-- canvas is the wave container -->
   <canvas id="canvas"></canvas>
   <h3><a id="startGyromove" href="#">Start</a></h3>
   <h3><a id="button" href="#">Change Values</a></h3>
@@ -19,29 +19,25 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.11/paper-full.min.js" charset="utf-8"></script>
   <script src="https://cdn.jsdelivr.net/gh/syspla/GyroMove@0.3/gyromove.js" charset="utf-8"></script>
-  <!-- Paperscript code for wave -->
 
+
+
+  <!-- Paperscript code for wave -->
   <script type="text/paperscript" canvas="canvas">
 
   //initial parameters
   var controlPoint = new Point(view.center); //startposition of control point
-  var smoothType = 'continuous'; //'continuous' 'asymmetric' 'catmull-rom' 'geometric'
-  var fillColor = '#0000ff'; //Hex
-
   var vX = 0.0; //modify x value of control point
   var vY = 0.0; //modify y value of control point
-
+  var smoothType = 'continuous'; //'continuous' 'asymmetric' 'catmull-rom' 'geometric'
+  var fillColor = '#0000ff'; //Hex
   //initial values for physical simulation
   var values = {
-    friction: 0.8, //simulated friction
-    timeStep: 0.01,  //time for wave simulation
+    friction: 0.8, //simulated friction //can be modified
+    timeStep: 0.01,  //time for wave simulation //can be modified
     amount: 15, //amount of points in wave  path (resolution) //cannot be modified after startup
     mass: 2, //simulated mass or weight //cannot be modified after startup
-    //count: 0 //cannot be modified after startup
   };
-
-//draw circle representation ofcontrol point
-
 
   //updateWaveDesign
   function updateValues(a,b,f,g){
@@ -55,162 +51,64 @@
     fillColor = g;
   }
 
-
   //wave physics
-  values.invMass = 1 / values.mass;
-  var path, springs;
-  var size = view.size * [1.2, 1];
-
-  var Spring = function(a, b, strength, restLength) {
-    this.a = a;
-    this.b = b;
-    this.restLength = restLength || 80;
-    this.strength = strength ? strength : 0.55;
-    this.mamb = values.invMass * values.invMass;
-  };
-
-  Spring.prototype.update = function() {
-    var delta = this.b - this.a;
-    var dist = delta.length;
-    var normDistStrength = (dist - this.restLength) /
-    (dist * this.mamb) * this.strength;
-    delta.y *= normDistStrength * values.invMass * 0.2;
-    if (!this.a.fixed)
-    this.a.y += delta.y;
-    if (!this.b.fixed)
-    this.b.y -= delta.y;
-  };
-
+  var path,springs;values.invMass=1/values.mass;var size=view.size*[1.2,1],Spring=function(s,t,i,a){this.a=s,this.b=t,this.restLength=a||80,this.strength=i||.55,this.mamb=values.invMass*values.invMass};Spring.prototype.update=function(){var s=this.b-this.a,t=s.length,i=(t-this.restLength)/(t*this.mamb)*this.strength;s.y*=i*values.invMass*.2,this.a.fixed||(this.a.y+=s.y),this.b.fixed||(this.b.y-=s.y)};
   //draw wave path
-  function createPath(strength) {
-    var path = new Path({
-      fillColor: fillColor
-    });
-    springs = [];
-    for (var i = 0; i <= values.amount; i++) {
-      var segment = path.add(new Point(i / values.amount, 0.5) * size);
-      var point = segment.point;
-      if (i == 0 || i == values.amount)
-      point.y += size.height;
-      point.px = point.x;
-      point.py = point.y;
-      // The first two and last two points are fixed:
-      point.fixed = i < 2 || i > values.amount - 2;
-      if (i > 0) {
-        var spring = new Spring(segment.previous.point, point, strength);
-        springs.push(spring);
-      }
-    }
-    path.position.x -= size.width / 4;
-    return path;
-  }
-
+  function createPath(i){var n=new Path({fillColor:fillColor});springs=[];for(var a=0;a<=values.amount;a++){var e=n.add(new Point(a/values.amount,.5)*size),o=e.point;if(0!=a&&a!=values.amount||(o.y+=size.height),o.px=o.x,o.py=o.y,o.fixed=a<2||a>values.amount-2,a>0){var t=new Spring(e.previous.point,o,i);springs.push(t)}}return n.position.x-=size.width/4,n}
   //if window is resized
-  function onResize() {
-    if (path)
-    path.remove();
-    size = view.bounds.size * [2, 1];
-    path = createPath(0.1);
-  }
-
+  function onResize(){path&&path.remove(),size=view.bounds.size*[2,1],path=createPath(.1)}
   //move basedon control point position
-  function onMove(pp) {
-    var location = path.getNearestLocation(pp);
-    var segment = location.segment;
-    var point = segment.point;
-    if (!point.fixed && location.distance < size.height / 4) {
-      var y = pp.y;
-      point.y += (y - point.y) / 6;
-      if (segment.previous && !segment.previous.fixed) {
-        var previous = segment.previous.point;
-        previous.y += (y - previous.y) / 24;
-      }
-      if (segment.next && !segment.next.fixed) {
-        var next = segment.next.point;
-        next.y += (y - next.y) / 24;
-      }
-    }
-  }
+  function onMove(e){var i=path.getNearestLocation(e),t=i.segment,n=t.point;if(!n.fixed&&i.distance<size.height/4){var o=e.y;if(n.y+=(o-n.y)/6,t.previous&&!t.previous.fixed){var a=t.previous.point;a.y+=(o-a.y)/24}if(t.next&&!t.next.fixed){var r=t.next.point;r.y+=(o-r.y)/24}}}
 
-
-  //circle
-
+  //draw  circle
+  //var circlePath = new Path.Circle(controlPoint, 25);
 
 
   //function runs  every frame
   function onFrame(event) {
     updateWave(path);
 
-    //modify vX and vY values
+    //modify vX and vY values based on gyroscope or accelerometer
     vX = gyroX;
     vY = gyroY;
 
 
-
-    var range = 15;
+    //set range of area  movement
+    var range = 25;
     var rangeP1 = new Point(view.center);
     var rangeP2 = new Point(view.center);
-    rangeP1.x = rangeP1.x  - range;
-    rangeP2.x = rangeP2.x  + range;
-    rangeP1.y = rangeP1.y  - range;
-    rangeP2.y = rangeP2.y  + range;
 
+    //Set values based on range
+    rangeP1.x=rangeP1.x-range,rangeP2.x=rangeP2.x+range,rangeP1.y=rangeP1.y-range,rangeP2.y=rangeP2.y+range;
 
     //decide how to affect control point
     controlPoint.x+=vX;
     controlPoint.y+=vY;
 
-    if(controlPoint.x <= rangeP1.x){
-      controlPoint.x = rangeP1.x;
-    }
-
-    if(controlPoint.x >= rangeP2.x){
-      controlPoint.x = rangeP2.x;
-    }
-
-    if(controlPoint.y <= rangeP1.y){
-      controlPoint.y = rangeP1.y;
-    }
-
-    if(controlPoint.y >= rangeP2.y){
-      controlPoint.y = rangeP2.y;
-    }
+    //confirm control point remains  inside range area
+    controlPoint.x<=rangeP1.x&&(controlPoint.x=rangeP1.x),controlPoint.x>=rangeP2.x&&(controlPoint.x=rangeP2.x),controlPoint.y<=rangeP1.y&&(controlPoint.y=rangeP1.y),controlPoint.y>=rangeP2.y&&(controlPoint.y=rangeP2.y);
 
 
     //update circle
-    var circlePath = new Path.Circle(controlPoint, 25);
-    circlePath.position = controlPoint;
-    circlePath.fillColor = 'black';
+    //circlePath.position = controlPoint;
+    //circlePath.fillColor = 'black';
+
 
     //call onMove function to update path
     onMove(controlPoint);
   }
 
   //update wave path
-  function updateWave(path) {
-    var force = 1 - values.friction * values.timeStep * values.timeStep;
-    for (var i = 0, l = path.segments.length; i < l; i++) {
-      var point = path.segments[i].point;
-      var dy = (point.y - point.py) * force;
-      point.py = point.y;
-      point.y = Math.max(point.y + dy, 0);
-    }
+  function updateWave(e){for(var t=1-values.friction*values.timeStep*values.timeStep,o=0,s=e.segments.length;o<s;o++){var a=e.segments[o].point,l=(a.y-a.py)*t;a.py=a.y,a.y=Math.max(a.y+l,0)}var p=0;for(s=springs.length;p<s;p++)springs[p].update();e.smooth({type:smoothType}),e.fillColor=fillColor}
 
-    for (var j = 0, l = springs.length; j < l; j++) {
-      springs[j].update();
-    }
-    path.smooth({ type: smoothType });
-    path.fillColor = fillColor;
 
-  }
 
   //update values sample
   document.getElementById('button').onclick = function(e){
     e.preventDefault();
     //click me function!
-    updateValues(0.8,0.01,'continuous','red');
+    updateValues(0.2,0.01,'geometric','red');
   }
   </script>
-
 </body>
 </html>
