@@ -19,6 +19,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.11/paper-full.min.js" charset="utf-8"></script>
   <script src="https://cdn.jsdelivr.net/gh/syspla/GyroMove@0.3/gyromove.js" charset="utf-8"></script>
 
+
+
   <!-- Paperscript code for wave -->
   <script type="text/paperscript" canvas="canvas">
 
@@ -48,7 +50,6 @@
     fillColor = g;
   }
 
-
   //wave physics
   var path,springs;values.invMass=1/values.mass;var size=view.size*[1.2,1],Spring=function(s,t,i,a){this.a=s,this.b=t,this.restLength=a||80,this.strength=i||.55,this.mamb=values.invMass*values.invMass};Spring.prototype.update=function(){var s=this.b-this.a,t=s.length,i=(t-this.restLength)/(t*this.mamb)*this.strength;s.y*=i*values.invMass*.2,this.a.fixed||(this.a.y+=s.y),this.b.fixed||(this.b.y-=s.y)};
   //draw wave path
@@ -57,6 +58,9 @@
   function onResize(){path&&path.remove(),size=view.bounds.size*[2,1],path=createPath(.1)}
   //move basedon control point position
   function onMove(e){var i=path.getNearestLocation(e),t=i.segment,n=t.point;if(!n.fixed&&i.distance<size.height/4){var o=e.y;if(n.y+=(o-n.y)/6,t.previous&&!t.previous.fixed){var a=t.previous.point;a.y+=(o-a.y)/24}if(t.next&&!t.next.fixed){var r=t.next.point;r.y+=(o-r.y)/24}}}
+
+  //draw  circle
+  var circlePath = new Path.Circle(controlPoint, 25);
 
 
   //function runs  every frame
@@ -69,60 +73,34 @@
 
 
     //set range of area  movement
-    var range = 15;
+    var range = 25;
     var rangeP1 = new Point(view.center);
     var rangeP2 = new Point(view.center);
-    rangeP1.x = rangeP1.x  - range;
-    rangeP2.x = rangeP2.x  + range;
-    rangeP1.y = rangeP1.y  - range;
-    rangeP2.y = rangeP2.y  + range;
 
+    //Set values based on range
+    rangeP1.x=rangeP1.x-range,rangeP2.x=rangeP2.x+range,rangeP1.y=rangeP1.y-range,rangeP2.y=rangeP2.y+range;
 
     //decide how to affect control point
     controlPoint.x+=vX;
     controlPoint.y+=vY;
 
-    if(controlPoint.x <= rangeP1.x){
-      controlPoint.x = rangeP1.x;
-    }
+    //confirm control point remains  inside range area
+    controlPoint.x<=rangeP1.x&&(controlPoint.x=rangeP1.x),controlPoint.x>=rangeP2.x&&(controlPoint.x=rangeP2.x),controlPoint.y<=rangeP1.y&&(controlPoint.y=rangeP1.y),controlPoint.y>=rangeP2.y&&(controlPoint.y=rangeP2.y);
 
-    if(controlPoint.x >= rangeP2.x){
-      controlPoint.x = rangeP2.x;
-    }
-
-    if(controlPoint.y <= rangeP1.y){
-      controlPoint.y = rangeP1.y;
-    }
-
-    if(controlPoint.y >= rangeP2.y){
-      controlPoint.y = rangeP2.y;
-    }
 
     //update circle
-    var circlePath = new Path.Circle(controlPoint, 25);
     circlePath.position = controlPoint;
     circlePath.fillColor = 'black';
+
 
     //call onMove function to update path
     onMove(controlPoint);
   }
 
   //update wave path
-  function updateWave(path) {
-    var force = 1 - values.friction * values.timeStep * values.timeStep;
-    for (var i = 0, l = path.segments.length; i < l; i++) {
-      var point = path.segments[i].point;
-      var dy = (point.y - point.py) * force;
-      point.py = point.y;
-      point.y = Math.max(point.y + dy, 0);
-    }
-    for (var j = 0, l = springs.length; j < l; j++) {
-      springs[j].update();
-    }
-    path.smooth({ type: smoothType });
-    path.fillColor = fillColor;
+  function updateWave(e){for(var t=1-values.friction*values.timeStep*values.timeStep,o=0,s=e.segments.length;o<s;o++){var a=e.segments[o].point,l=(a.y-a.py)*t;a.py=a.y,a.y=Math.max(a.y+l,0)}var p=0;for(s=springs.length;p<s;p++)springs[p].update();e.smooth({type:smoothType}),e.fillColor=fillColor}
 
-  }
+
 
   //update values sample
   document.getElementById('button').onclick = function(e){
