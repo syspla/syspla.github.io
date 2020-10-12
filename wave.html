@@ -41,7 +41,6 @@
   };
 
 //draw circle representation ofcontrol point
-var circlePath = new Path.Circle(controlPoint, 25);
 
 
   //updateWaveDesign
@@ -133,6 +132,12 @@ var circlePath = new Path.Circle(controlPoint, 25);
     }
   }
 
+
+  //circle
+  var circlePath = new Path.Circle(controlPoint, 25);
+  circlePath.fillColor = 'black';
+
+  
   //function runs  every frame
   function onFrame(event) {
     updateWave(path);
