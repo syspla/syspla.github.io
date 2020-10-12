@@ -134,7 +134,6 @@
 
 
   //circle
-  var circlePath = new Path.Circle(controlPoint, 25);
 
 
 
@@ -150,8 +149,11 @@
     controlPoint.x+=vX;
     controlPoint.y+=vY;
 
+
     //update circle
+    var circlePath = new Path.Circle(controlPoint, 25);
     circlePath.position = controlPoint;
+    circlePath.fillColor = 'black';
 
     //call onMove function to update path
     onMove(controlPoint);
@@ -172,7 +174,7 @@
     }
     path.smooth({ type: smoothType });
     path.fillColor = fillColor;
-    circlePath.fillColor = 'black';
+
   }
 
   //update values sample
