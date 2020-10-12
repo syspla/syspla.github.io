@@ -137,7 +137,7 @@
   var circlePath = new Path.Circle(controlPoint, 25);
   circlePath.fillColor = 'black';
 
-  
+
   //function runs  every frame
   function onFrame(event) {
     updateWave(path);
@@ -151,7 +151,7 @@
     controlPoint.y+=vY;
 
     //update circle
-    circlePath.position = event.point;
+    circlePath.position = controlPoint;
 
     //call onMove function to update path
     onMove(controlPoint);
