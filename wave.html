@@ -35,10 +35,14 @@
   var values = {
     friction: 0.8, //simulated friction
     timeStep: 0.01,  //time for wave simulation
-    amount: 30, //amount of points in wave  path (resolution) //cannot be modified after startup
-    mass: 6, //simulated mass or weight //cannot be modified after startup
+    amount: 15, //amount of points in wave  path (resolution) //cannot be modified after startup
+    mass: 2, //simulated mass or weight //cannot be modified after startup
     count: 0 //count //cannot be modified after startup
   };
+
+//draw circle representation ofcontrol point
+var circlePath = new Path.Circle(controlPoint, 25);
+
 
   //updateWaveDesign
   function updateValues(a,b,f,g){
@@ -140,6 +144,9 @@
     //decide how to affect control point
     controlPoint.x+=vX;
     controlPoint.y+=vY;
+
+    //update circle
+    circlePath.position = event.point;
 
     //call onMove function to update path
     onMove(controlPoint);
