@@ -49,7 +49,7 @@
   document.getElementById("text-button").onclick = function() {
    friction.innerHTML = "aaaa";
  
- }
+ };
  
 
   //updateWaveDesign
@@ -62,7 +62,7 @@
     smoothType = f;
     //string HEX
     fillColor = g;
-  }
+  };
 
   //wave physics
   var path,springs;values.invMass=1/values.mass;var size=view.size*[1.2,1],Spring=function(s,t,i,a){this.a=s,this.b=t,this.restLength=a||80,this.strength=i||.55,this.mamb=values.invMass*values.invMass};Spring.prototype.update=function(){var s=this.b-this.a,t=s.length,i=(t-this.restLength)/(t*this.mamb)*this.strength;s.y*=i*values.invMass*.2,this.a.fixed||(this.a.y+=s.y),this.b.fixed||(this.b.y-=s.y)};
