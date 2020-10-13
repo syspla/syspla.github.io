@@ -17,7 +17,8 @@
   <br>
   <br>
   <br>
-  <h3>つまみ2</h3>
+  <h2>つまみボタン</h2>
+  <div id="text-button"><h2>ボタンクリック</h2></div>
   <div id="friction">ここに数値表示</div>
   <h2>ここに数値表示2</h2>
 
@@ -45,6 +46,12 @@
     mass: 2, //simulated mass or weight //cannot be modified after startup
   };
 
+  document.getElementById("text-button").onclick = function() {
+   friction.innerHTML = "aaaa";
+ 
+ }
+ 
+
   //updateWaveDesign
   function updateValues(a,b,f,g){
     //float
@@ -55,8 +62,6 @@
     smoothType = f;
     //string HEX
     fillColor = g;
-    
-    friction.innerHTML = a;
   }
 
   //wave physics
