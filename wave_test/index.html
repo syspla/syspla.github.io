@@ -18,7 +18,6 @@
   <br>
   <br>
   <h2>つまみボタンa</h2>
-  <div id="text-button"><h2>ボタンクリック</h2></div>
   <div id="friction">ここに数値表示</div>
   <h2>ここに数値表示2</h2>
 
@@ -45,11 +44,6 @@
     amount: 15, //amount of points in wave  path (resolution) //cannot be modified after startup
     mass: 2, //simulated mass or weight //cannot be modified after startup
   };
-
-  document.getElementById("text-button").onclick = function() {
-   document.getElementById("friction").innerHTML = range;
- 
- };
  
 
   //updateWaveDesign
@@ -62,6 +56,9 @@
     smoothType = f;
     //string HEX
     fillColor = g;
+    
+       document.getElementById("friction").innerHTML = range;
+ 
   };
 
   //wave physics
