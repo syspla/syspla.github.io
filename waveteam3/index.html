@@ -27,10 +27,10 @@
 
   //initial parameters
   var controlPoint = new Point(view.center); //startposition of control point
-  var vX = 5.0; //modify x value of control point
+  var vX = 0.0; //modify x value of control point
   var vY = 0.0; //modify y value of control point
   var smoothType = 'catmull-rom'; //'continuous' 'asymmetric' 'catmull-rom' 'geometric'
-  var fillColor = '#ff0000'; //Hex
+  var fillColor = '#ffff00'; //Hex
   //initial values for physical simulation
   var values = {
     friction: 150.0, //simulated friction //can be modified
@@ -40,7 +40,7 @@
   };
 
   //updateWaveDesign
-  function updateValues(a,b,f,g){
+  function updateValues(a,5b,f,g){
     //float
     values.friction = a;
     //float
