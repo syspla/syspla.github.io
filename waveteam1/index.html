@@ -29,14 +29,16 @@
   var controlPoint = new Point(view.center); //startposition of control point
   var vX = 0.0; //modify x value of control point
   var vY = 0.0; //modify y value of control point
-  var smoothType = 'catmull-rom'; //'continuous' 'asymmetric' 'catmull-rom' 'geometric'
+  
+  
+  var smoothType = 'continuous'; //'continuous' 'asymmetric' 'catmull-rom' 'geometric'
   var fillColor = '#14daef'; //Hex
   //initial values for physical simulation
   var values = {
-    friction: 10, //simulated friction //can be modified
+    friction: 0.8, //simulated friction //can be modified
     timeStep: 0.01,  //time for wave simulation //can be modified
-    amount: 15, //amount of points in wave  path (resolution) //cannot be modified after startup
-    mass: 2, //simulated mass or weight //cannot be modified after startup
+    amount: 60, //amount of points in wave  path (resolution) //cannot be modified after startup
+    mass: 8, //simulated mass or weight //cannot be modified after startup
   };
 
   //updateWaveDesign
