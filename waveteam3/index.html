@@ -30,7 +30,7 @@
   var vX = 0.0; //modify x value of control point
   var vY = 0.0; //modify y value of control point
   var smoothType = 'catmull-rom'; //'continuous' 'asymmetric' 'catmull-rom' 'geometric'
-  var fillColor = '#4fe825'; //Hex
+  var fillColor = '#1ed79c'; //Hex
   //initial values for physical simulation
   var values = {
     friction: 200.0, //simulated friction //can be modified
@@ -75,12 +75,12 @@
 
     console.log(vX);
     //set range of area  movement
-    var range = 60;
+    var range = 80;
     var rangeP1 = new Point(view.center);
     var rangeP2 = new Point(view.center);
 
     //Set values based on range
-    rangeP1.x=rangeP1.x-range/2,rangeP2.x=rangeP2.x+range/3,rangeP1.y=rangeP1.y-range/2,rangeP2.y=rangeP2.y+range*2;
+    rangeP1.x=rangeP1.x-range*2,rangeP2.x=rangeP2.x+range/2,rangeP1.y=rangeP1.y-range/2,rangeP2.y=rangeP2.y+range*2;
 
     //decide how to affect control point
     controlPoint.x+=vX;
