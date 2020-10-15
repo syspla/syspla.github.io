@@ -30,13 +30,13 @@
   var vX = 0.0; //modify x value of control point
   var vY = 0.0; //modify y value of control point
   var smoothType = 'continuous'; //'continuous' 'asymmetric' 'catmull-rom' 'geometric'
-  var fillColor = '#351dcd'; //Hex
+  var fillColor = '#35fdcd'; //Hex
   //initial values for physical simulation
   var values = {
-    friction: 200.0, //simulated friction //can be modified
+    friction: 0.8, //simulated friction //can be modified
     timeStep: 0.01,  //time for wave simulation //can be modified
     amount: 20, //amount of points in wave  path (resolution) //cannot be modified after startup
-    mass: 15, //simulated mass or weight //cannot be modified after startup
+    mass: 30, //simulated mass or weight //cannot be modified after startup
   };
 
   //updateWaveDesign
@@ -75,7 +75,7 @@
 
     console.log(vX);
     //set range of area  movement
-    var range = 80;
+    var range = 70;
     var rangeP1 = new Point(view.center);
     var rangeP2 = new Point(view.center);
 
