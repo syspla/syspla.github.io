@@ -30,6 +30,8 @@
   var vX = 0.0; //modify x value of control point
   var vY = 0.0; //modify y value of control point
   var smoothType = 'continuous'; //'continuous' 'asymmetric' 'catmull-rom' 'geometric'
+  
+  //以下の値を変更する
   var fillColor = '#000000'; //Hex
   //initial values for physical simulation
   var values = {
@@ -38,6 +40,8 @@
     amount: 15, //amount of points in wave  path (resolution) //cannot be modified after startup
     mass: 2, //simulated mass or weight //cannot be modified after startup
   };
+//ここまで
+
 
   //updateWaveDesign
   function updateValues(a,b,f,g){
