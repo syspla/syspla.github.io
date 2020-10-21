@@ -8,7 +8,7 @@
   #startGyromove{position:absolute; top:3%; left:5%;z-index: 2000; font-size: 200%;}
   #button{position:absolute; top:3%; right:5%; z-index: 2000; font-size: 200%;}
   #ff{position: absolute; top: 7%; z-index: 3000;}
-  .txt_size{font-size: 200%;}
+  .txt_size{font-size: 200%; margin:0%;}
   input,select,textarea {
 font-size: 200%;
 }
@@ -17,9 +17,13 @@ font-size: 200%;
 <body>
   <!-- canvas is the wave container -->
   <div id="ff">
+    <br>
+    <br>
     <p class = "txt_size">friction</p><input id="friction_txt" type="text"  maxlength = "10" value = "0.8">
     <p class = "txt_size">timeStep</p><input id="timeStep_txt" type="text" maxlength = "10" value = "0.01">
-    <p class = "txt_size">color_txt</p><input id="color_txt" type="text" maxlength = "10" value = "#2533e5">
+    <p class = "txt_size">amount</p><input id="amount_txt" type="text" maxlength = "10" value = "15">
+    <p class = "txt_size">mass</p><input id="mass_txt" type="text" maxlength = "10" value = "2">
+    <p class = "txt_size">color</p><input id="color_txt" type="text" maxlength = "10" value = "#2533e5">
   </div>
 
 
@@ -56,6 +60,7 @@ font-size: 200%;
     //float
     values.timeStep = b;
     //string
+
     smoothType = f;
     //string HEX
     fillColor = g;
@@ -119,7 +124,10 @@ font-size: 200%;
     //click me function!
     var friction_txt = document.getElementById('friction_txt').value;
     var timeStep_txt = document.getElementById('timeStep_txt').value;
+    var amount_txt = document.getElementById('amount_txt').value;
+    var mass_txt = document.getElementById('mass_txt').value;
     var color_txt = document.getElementById('color_txt').value;
+
     updateValues(friction_txt,timeStep_txt,'geometric',color_txt);
   }
 
