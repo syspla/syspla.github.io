@@ -55,6 +55,8 @@ font-size: 200%;
 
   //updateWaveDesign
   function updateValues(a,b,f,g){
+    onResize();
+
     //float
     values.friction = a;
     //float
@@ -64,7 +66,6 @@ font-size: 200%;
     smoothType = f;
     //string HEX
     fillColor = g;
-    onResize();
   }
 
   //wave physics
@@ -73,7 +74,7 @@ font-size: 200%;
   function createPath(i){var n=new Path({fillColor:fillColor});springs=[];for(var a=0;a<=values.amount;a++){var e=n.add(new Point(a/values.amount,.5)*size),o=e.point;if(0!=a&&a!=values.amount||(o.y+=size.height),o.px=o.x,o.py=o.y,o.fixed=a<2||a>values.amount-2,a>0){var t=new Spring(e.previous.point,o,i);springs.push(t)}}return n.position.x-=size.width/4,n}
   //if window is resized
   function onResize(){
-    var path,springs;values.invMass=1/values.mass;var size=view.size*[1.2,1],Spring=function(s,t,i,a){this.a=s,this.b=t,this.restLength=a||80,this.strength=i||.55,this.mamb=values.invMass*values.invMass};Spring.prototype.update=function(){var s=this.b-this.a,t=s.length,i=(t-this.restLength)/(t*this.mamb)*this.strength;s.y*=i*values.invMass*.2,this.a.fixed||(this.a.y+=s.y),this.b.fixed||(this.b.y-=s.y)};
+    path,springs;values.invMass=1/values.mass; size=view.size*[1.2,1],Spring=function(s,t,i,a){this.a=s,this.b=t,this.restLength=a||80,this.strength=i||.55,this.mamb=values.invMass*values.invMass};Spring.prototype.update=function(){var s=this.b-this.a,t=s.length,i=(t-this.restLength)/(t*this.mamb)*this.strength;s.y*=i*values.invMass*.2,this.a.fixed||(this.a.y+=s.y),this.b.fixed||(this.b.y-=s.y)};
     path&&path.remove(),size=view.bounds.size*[2,1],path=createPath(.1)}
   //move basedon control point position
   function onMove(e){var i=path.getNearestLocation(e),t=i.segment,n=t.point;if(!n.fixed&&i.distance<size.height/4){var o=e.y;if(n.y+=(o-n.y)/6,t.previous&&!t.previous.fixed){var a=t.previous.point;a.y+=(o-a.y)/24}if(t.next&&!t.next.fixed){var r=t.next.point;r.y+=(o-r.y)/24}}}
