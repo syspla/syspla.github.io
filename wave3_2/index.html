@@ -5,38 +5,50 @@
   <title>wave test</title>
   <style media="screen">
   #canvas{width: 100%; height:100%; position:absolute; top:0; left:0; z-index:0;}
-  #startGyromove{position:absolute; top:5%; left:5%;z-index: 2000;}
-  #button{position:absolute; top:5%; left:10%; z-index: 2000;}
+  #startGyromove{position:absolute; top:3%; left:5%;z-index: 2000; font-size: 200%;}
+  #button{position:absolute; top:3%; right:5%; z-index: 2000; font-size: 200%;}
+  #ff{position: absolute; top: 7%; z-index: 3000;}
+  .txt_size{font-size: 200%; margin:0%;}
+  input,select,textarea {
+font-size: 200%;
+}
   </style>
 </head>
 <body>
   <!-- canvas is the wave container -->
-  <canvas id="canvas"></canvas>
-  <h3><a id="startGyromove" href="#">Start</a></h3>
-  <h3><a id="button" href="#">Change Values</a></h3>
+  <div id="ff">
+    <br>
+    <br>
+    <p class = "txt_size">friction</p><input id="friction_txt" type="text"  maxlength = "10" value = "0.8">
+    <p class = "txt_size">timeStep</p><input id="timeStep_txt" type="text" maxlength = "10" value = "0.01">
+    <p class = "txt_size">color</p><input id="color_txt" type="text" maxlength = "10" value = "#2533e5">
+  </div>
 
+
+
+  <canvas id="canvas"></canvas>
+  <h2><a id="startGyromove" href="#">Start</a></h2>
+  <h2><a id="button" href="#">Change Values</a></h2>
 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.11/paper-full.min.js" charset="utf-8"></script>
   <script src="https://cdn.jsdelivr.net/gh/syspla/GyroMove@0.3/gyromove.js" charset="utf-8"></script>
 
 
-
   <!-- Paperscript code for wave -->
   <script type="text/paperscript" canvas="canvas">
-
   //initial parameters
   var controlPoint = new Point(view.center); //startposition of control point
   var vX = 0.0; //modify x value of control point
   var vY = 0.0; //modify y value of control point
   var smoothType = 'continuous'; //'continuous' 'asymmetric' 'catmull-rom' 'geometric'
-  var fillColor = '#F73FA9'; //Hex
+  var fillColor = '#e0d21e'; //Hex
   //initial values for physical simulation
   var values = {
-    friction: 50, //simulated friction //can be modified
+    friction: 0.8, //simulated friction //can be modified
     timeStep: 0.01,  //time for wave simulation //can be modified
-    amount: 20, //amount of points in wave  path (resolution) //cannot be modified after startup
-    mass: 15, //simulated mass or weight //cannot be modified after startup
+    amount: 15, //amount of points in wave  path (resolution) //cannot be modified after startup
+    mass: 2, //simulated mass or weight //cannot be modified after startup
   };
 
   //updateWaveDesign
@@ -46,6 +58,7 @@
     //float
     values.timeStep = b;
     //string
+
     smoothType = f;
     //string HEX
     fillColor = g;
@@ -107,8 +120,14 @@
   document.getElementById('button').onclick = function(e){
     e.preventDefault();
     //click me function!
-    updateValues(0.2,0.01,'geometric','red');
+    var friction_txt = document.getElementById('friction_txt').value;
+    var timeStep_txt = document.getElementById('timeStep_txt').value;
+    var color_txt = document.getElementById('color_txt').value;
+
+    updateValues(friction_txt,timeStep_txt,'geometric',color_txt);
   }
+
   </script>
-</body>
+
+
 </html>
