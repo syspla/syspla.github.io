@@ -54,7 +54,7 @@ font-size: 200%;
   };
 
   //updateWaveDesign
-  function updateValues(a,b,f,g){
+  function updateValues(a,b,f,g,m,aa){
     onResize();
 
     //float
@@ -62,6 +62,8 @@ font-size: 200%;
     //float
     values.timeStep = b;
     //string
+    values.mass = m;
+    values.amount = aa;
 
     smoothType = f;
     //string HEX
@@ -132,7 +134,7 @@ font-size: 200%;
     var mass_txt = document.getElementById('mass_txt').value;
     var color_txt = document.getElementById('color_txt').value;
 
-    updateValues(friction_txt,timeStep_txt,'geometric',color_txt);
+    updateValues(friction_txt,timeStep_txt,'geometric',color_txt,mass_txt,amount_txt);
   }
 
   </script>
